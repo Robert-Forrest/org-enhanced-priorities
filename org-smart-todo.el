@@ -89,4 +89,4 @@
 
 (provide 'org-smart-todo)
 
-;;; org-super-agenda.el ends here
+;;; org-smart-todo.el ends here
