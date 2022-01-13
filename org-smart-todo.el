@@ -3,10 +3,12 @@
 ;; Author: Robert Forrest <robertforrest@live.com>
 ;; Url: https://github.com/Robert-Forrest/org-smart-todo
 ;; Version: 0.1-pre
-;; Package-Requires: 
+;; Package-Requires:  ((emacs "26.1") (org "9.0"))
 ;; Keywords: Org, agenda, tasks
 
 ;;; Commentary:
+
+;;; Extends Org-mode's default priority-based ranking with impact and work
 
 ;;; License:
 
@@ -43,20 +45,44 @@
 
 ;;; Code:
 
-
 ;;;; Requirements
+
+(require 'org)
+(require 'org-agenda)
 
 ;;;; Variables
 
 ;;;; Customization
 
-;;;; Support functions
+(defgroup org-smart-todo nil
+  "Settings for `org-smart-todo'."
+  :group 'org
+  :link '(url-link "http://github.com/robert-forrest/org-smart-todo"))
+
+(defcustom org-smart-todo-weight-priority 2.5
+  "Default value for weight of priority in ranking."
+  :type 'number
+  :group 'org-smart-todo)
+
+(defcustom org-smart-todo-weight-impact 2
+  "Default value for weight of impact in ranking."
+  :type 'number
+  :group 'org-smart-todo)
+
+(defcustom org-smart-todo-weight-work -1
+  "Default value for weight of work in ranking."
+  :type 'number
+  :group 'org-smart-todo)
+
+;;;; Functions
 
 (defun org-smart-todo--get-property (property &optional pos)
+  "Get PROPERTY from org item at POS or under cursor."
   (org-entry-get (or pos (point)) property))
 
 (defun org-smart-todo--get-numerical-property (property &optional pos)
-  (let*((property-value (or (org-smart-todo--get-property property pos) "0")))                       
+  "Convert string PROPERTY values for item at POS or under cursor to numbers."
+  (let*((property-value (or (org-smart-todo--get-property property pos) "0")))
     (if (string= property "PRIORITY")
         (cond ((string= property-value "A") 3)
               ((string= property-value "B") 2)
@@ -64,18 +90,23 @@
       (string-to-number property-value))))
 
 (defun org-smart-todo--get-marker (item)
+  "Get the org-marker from text properties of ITEM."
   (or (get-text-property 0 'org-marker item)
       (get-text-property 0 'org-hd-marker item)))
 
 (defun org-smart-todo--calculate-overall-priority (&optional pos)
+  "Calculate the overall priority of an Org item either at POS or under cursor."
   (let*((impact (org-smart-todo--get-numerical-property "impact" pos))
         (work (org-smart-todo--get-numerical-property "work" pos))
         (priority (org-smart-todo--get-numerical-property "PRIORITY" pos))
-        (total (+ (- work) (* 2 impact) (* 2.5 priority))))
+        (total (+
+                (* org-smart-todo-weight-priority priority)
+                (* org-smart-todo-weight-impact impact)
+                (* org-smart-todo-weight-work work))))
     total))
   
 (defun org-smart-todo--agenda-sort-overall-priority (a b)
-  "Compare the overall priority values of items a and b."
+  "Compare the overall priority values of items A and B."
   (let*((ma (org-smart-todo--get-marker a))
         (mb (org-smart-todo--get-marker b))
         
