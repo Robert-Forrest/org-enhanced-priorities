@@ -1,2 +1,4 @@
-# org-enhanced-priorities
+#+TITLE: org-enhanced-priorities
+#+PROPERTY: LOGGING nil
+
 Enhances Org-mode's default priority-based ranking with impact and work
