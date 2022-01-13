@@ -48,7 +48,6 @@
 ;;;; Requirements
 
 (require 'org)
-(require 'org-agenda)
 
 ;;;; Variables
 
