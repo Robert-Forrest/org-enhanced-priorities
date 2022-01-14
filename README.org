@@ -50,6 +50,12 @@ item.
 :END:
 #+END_EXAMPLE
 
+Evaluating the following function while the cursor is over the above
+item would return 7.5 (assuming the default weights):
+#+BEGIN_SRC emacs-lisp
+(org-enhanced-priorities--calculate-overall-priority)
+#+END_SRC
+
 ** Agenda
 
 Add the sorting function provided by org-enhanced-priorities to your
