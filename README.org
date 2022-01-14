@@ -5,7 +5,7 @@ Enhances Org-mode's default priority-based ranking with impact and difficulty
 
 * Installation
 
-org-enhanced-priorities is not yet available via ELPA or other
+=org-enhanced-priorities= is not yet available via ELPA or other
 archives, so must be manually installed and added to your load path.
 
 #+BEGIN_SRC emacs-lisp
@@ -15,7 +15,7 @@ archives, so must be manually installed and added to your load path.
 
 * Usage
 
-org-enhanced-priorities calculates the overall priority of an item
+=org-enhanced-priorities= calculates the overall priority of an item
 using the built-in priority property, and the additional properties of
 impact and difficulty.
 
@@ -58,7 +58,7 @@ item would return 7.5 (assuming the default weights):
 
 ** Agenda
 
-Add the sorting function provided by org-enhanced-priorities to your
+Add the sorting function provided by =org-enhanced-priorities= to your
 agenda configuration:
 
 #+BEGIN_SRC emacs-lisp
@@ -72,4 +72,4 @@ Contributions are welcome and desired, as well as any feedback or suggestions.
 
 * License
 
-Please refer to the `LICENSE` file.
+Please refer to the =LICENSE= file.
