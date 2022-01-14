@@ -56,6 +56,12 @@ item would return 7.5 (assuming the default weights):
 (org-enhanced-priorities--calculate-overall-priority)
 #+END_SRC
 
+See the =examples= directory for further exemplary org entries. When the
+agenda for the =examples= tasks is sorted using =org-enhanced-priorities=,
+the result is the following:
+
+[[./examples/example-agenda.png]]
+
 ** Agenda
 
 Add the sorting function provided by =org-enhanced-priorities= to your
