@@ -65,3 +65,11 @@ agenda configuration:
 (org-agenda-cmp-user-defined 'org-enhanced-priorities--agenda-sort-overall-priority)
                             (org-agenda-sorting-strategy '(user-defined-down))
 #+END_SRC
+
+* Development
+
+Contributions are welcome and desired, as well as any feedback or suggestions.
+
+* License
+
+Please refer to the `LICENSE` file.
