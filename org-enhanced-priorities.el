@@ -1,4 +1,4 @@
-;;; org-enhanced-priorities.el --- Rank TODOs by priority, impact, and work  -*- lexical-binding: t; -*-
+;;; org-enhanced-priorities.el --- Rank TODOs by priority, impact, and difficulty  -*- lexical-binding: t; -*-
 
 ;; Author: Robert Forrest <robertforrest@live.com>
 ;; Url: https://github.com/Robert-Forrest/org-enhanced-priorities
@@ -8,7 +8,7 @@
 
 ;;; Commentary:
 
-;;; Enhances Org-mode's default priority-based ranking with impact and work
+;;; Enhances Org-mode's default priority-based ranking with impact and difficulty
 
 ;;; License:
 
@@ -68,8 +68,8 @@
   :type 'number
   :group 'org-enhanced-priorities)
 
-(defcustom org-enhanced-priorities-weight-work -1
-  "Default value for weight of work in ranking."
+(defcustom org-enhanced-priorities-weight-difficulty -1
+  "Default value for weight of difficulty in ranking."
   :type 'number
   :group 'org-enhanced-priorities)
 
@@ -96,12 +96,12 @@
 (defun org-enhanced-priorities--calculate-overall-priority (&optional pos)
   "Calculate the overall priority of an Org item either at POS or under cursor."
   (let*((impact (org-enhanced-priorities--get-numerical-property "impact" pos))
-        (work (org-enhanced-priorities--get-numerical-property "work" pos))
+        (difficulty (org-enhanced-priorities--get-numerical-property "difficulty" pos))
         (priority (org-enhanced-priorities--get-numerical-property "PRIORITY" pos))
         (total (+
                 (* org-enhanced-priorities-weight-priority priority)
                 (* org-enhanced-priorities-weight-impact impact)
-                (* org-enhanced-priorities-weight-work work))))
+                (* org-enhanced-priorities-weight-difficulty difficulty))))
     total))
   
 (defun org-enhanced-priorities--agenda-sort-overall-priority (a b)
