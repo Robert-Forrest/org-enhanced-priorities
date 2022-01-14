@@ -1,4 +1,61 @@
 #+TITLE: org-enhanced-priorities
 #+PROPERTY: LOGGING nil
 
-Enhances Org-mode's default priority-based ranking with impact and work
+Enhances Org-mode's default priority-based ranking with impact and difficulty
+
+* Installation
+
+org-enhanced-priorities is not yet available via ELPA or other
+archives, so must be manually installed and added to your load path.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "/path/to/org-enhanced-priorities")
+(require 'org-enhanced-priorities)
+#+END_SRC
+
+* Usage
+
+org-enhanced-priorities calculates the overall priority of an item
+using the built-in priority property, and the additional properties of
+impact and difficulty.
+
+Impact is thought of as "how much positive change will this task
+create?", difficulty as "how hard is this task?", and priority takes
+its usual meaning of "how urgent is this task?". Currently, all
+properties are assumed to be on a scale of 1-3 (low-high).
+
+The overall priority is the sum of these values after they have been
+multiplied by their respective weighting coefficients. The default
+values are currently:
+
+| Property   | Weighting |
+|------------+-----------|
+| Priority   |       2.5 |
+| Impact     |         2 |
+| Difficulty |        -1 |
+
+Difficulty is negatively weighted such that harder tasks are ranked
+below easier ones.
+
+*** Example Org entry
+
+The properties :impact: and :difficulty: have been added to this Org
+item.
+
+#+BEGIN_EXAMPLE
+,* TODO [#A] High-priority Low-impact Medium-difficulty
+:PROPERTIES:
+:impact: 1
+:difficulty: 2
+:END:
+#+END_EXAMPLE
+
+** Agenda
+
+Add the sorting function provided by org-enhanced-priorities to your
+agenda configuration:
+
+#+BEGIN_SRC emacs-lisp
+(org-agenda-cmp-user-defined 'org-enhanced-priorities--agenda-sort-overall-priority)
+                            (org-agenda-sorting-strategy '(user-defined-down))
+#+END_SRC
