@@ -1,7 +1,11 @@
 #+TITLE: org-enhanced-priorities
 #+PROPERTY: LOGGING nil
 
-Enhances Org-mode's default priority-based ranking with impact and difficulty.
+=org-enhanced-priorities= enhances Org-mode's default priority-based
+ranking with impact and difficulty. This extra information introduces
+more nuanced and fine-level control over agenda sorting, allowing you
+to confidently take the next task from the top of the agenda without
+wasting time thinking about it.
 
 * Installation
 
