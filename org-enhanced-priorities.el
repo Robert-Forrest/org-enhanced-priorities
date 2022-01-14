@@ -4,7 +4,7 @@
 ;; Url: https://github.com/Robert-Forrest/org-enhanced-priorities
 ;; Version: 0.1-pre
 ;; Package-Requires:  ((emacs "26.1") (org "9.0"))
-;; Keywords: Org, agenda, tasks
+;; Keywords: calendar
 
 ;;; Commentary:
 
