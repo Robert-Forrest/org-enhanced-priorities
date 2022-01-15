@@ -32,15 +32,25 @@ The overall priority is the sum of these values after they have been
 multiplied by their respective weighting coefficients. The default
 values are currently:
 
-| Property   | Weighting | Variable                                  |
-|------------+-----------+-------------------------------------------|
-| Priority   |       2.5 | =org-enhanced-priorities-weight-priority=   |
-| Impact     |         2 | =org-enhanced-priorities-weight-impact=     |
-| Difficulty |        -1 | =org-enhanced-priorities-weight-difficulty= |
+| Property   | Weighting |
+|------------+-----------|
+| Priority   |       2.5 |
+| Impact     |         2 |
+| Difficulty |        -1 |
 
 Difficulty is negatively weighted such that harder tasks are ranked
-below easier ones. These values can be customised to create whatever
-ranking system works best for you.
+below easier ones.
+
+These values can be customised to create whatever ranking system works
+best for you, via the variable
+=org-enhanced-priorities-property-weights=, an association list of
+property names and their respective weights. Simply add new key-value
+pairs to =org-enhanced-priorities-property-weights= to include other
+properties into the overall priority calculation:
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'org-enhanced-priorities-property-weights '("fun" . 10))
+#+END_SRC
 
 *** Example Org entry
 
@@ -94,28 +104,28 @@ to your task capture templates, so you can easily fill in the values:
 :impact: 2 
 :difficulty: 2
 :END:"       
-             :empty-lines 1
-             )
-            )
-          )
+             :empty-lines 1)))
 #+END_SRC
 
 
 * Future features
 
-- Arbitrary properties to be included in the ranking process, users
-  should be able to define their own properties. Related, better
-  handling of currently hard-coded =PRIORITY= property translation from
-  A, B, or C to a number, allow for other letters and numerical
-  values.
+- [x] Arbitrary properties to be included in the ranking process,
+  users should be able to define their own properties.
 
-- Deadlines and scheduling should have an effect on the
+- [] Better handling of currently hard-coded =PRIORITY= property
+  translation from A, B, or C to a number, allow for other letters and
+  numerical values.
+
+- [] Deadlines and scheduling should have an effect on the
   rankings. Priority should increase as deadlines approach, and should
   be zero before the scheduled start-date of a task.
 
-- A command which returns the highest priority task, to be done next.
+- [] A command which returns the highest priority task, to be done
+  next.
 
-- Availability of this package via an archive such as ELPA or MELPA.
+- [] Availability of this package via an archive such as ELPA or
+  MELPA.
 
 * Development
 
