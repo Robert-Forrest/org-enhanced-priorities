@@ -73,8 +73,8 @@ Add the sorting function provided by =org-enhanced-priorities= to your
 agenda configuration:
 
 #+BEGIN_SRC emacs-lisp
-(org-agenda-cmp-user-defined 'org-enhanced-priorities--agenda-sort-overall-priority)
-                            (org-agenda-sorting-strategy '(user-defined-down))
+  (org-agenda-cmp-user-defined 'org-enhanced-priorities--agenda-sort-overall-priority)
+  (org-agenda-sorting-strategy '(user-defined-down))
 #+END_SRC
 
 I would highly recommend checking out the [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] package for
