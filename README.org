@@ -32,14 +32,15 @@ The overall priority is the sum of these values after they have been
 multiplied by their respective weighting coefficients. The default
 values are currently:
 
-| Property   | Weighting |
-|------------+-----------|
-| Priority   |       2.5 |
-| Impact     |         2 |
-| Difficulty |        -1 |
+| Property   | Weighting | Variable                                  |
+|------------+-----------+-------------------------------------------|
+| Priority   |       2.5 | =org-enhanced-priorities-weight-priority=   |
+| Impact     |         2 | =org-enhanced-priorities-weight-impact=     |
+| Difficulty |        -1 | =org-enhanced-priorities-weight-difficulty= |
 
 Difficulty is negatively weighted such that harder tasks are ranked
-below easier ones.
+below easier ones. These values can be customised to create whatever
+ranking system works best for you.
 
 *** Example Org entry
 
@@ -75,6 +76,43 @@ agenda configuration:
 (org-agenda-cmp-user-defined 'org-enhanced-priorities--agenda-sort-overall-priority)
                             (org-agenda-sorting-strategy '(user-defined-down))
 #+END_SRC
+
+** Capture templates
+
+You may find it useful to add the =:impact:= and =:difficulty:= properties
+to your task capture templates, so you can easily fill in the values:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates `(("t"
+                               "Task"
+                               entry (file+headline "/path/to/tasks.org" "Tasks"),
+                               "* TODO [#B] %? %^G 
+:PROPERTIES:
+:impact: 2 
+:difficulty: 2
+:END:"       
+             :empty-lines 1
+             )
+            )
+          )
+#+END_SRC
+
+
+* Future features
+
+- Arbitrary properties to be included in the ranking process, users
+  should be able to define their own properties. Related, better
+  handling of currently hard-coded =PRIORITY= property translation from
+  A, B, or C to a number, allow for other letters and numerical
+  values.
+
+- Deadlines and scheduling should have an effect on the
+  rankings. Priority should increase as deadlines approach, and should
+  be zero before the scheduled start-date of a task.
+
+- A command which returns the highest priority task, to be done next.
+
+- Availability of this package via an archive such as ELPA or MELPA.
 
 * Development
 
