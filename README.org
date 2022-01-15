@@ -1,6 +1,8 @@
 #+TITLE: org-enhanced-priorities
 #+PROPERTY: LOGGING nil
 
+#+HTML: <a href="https://github.com/Robert-Forrest/org-enhanced-priorities/actions/workflows/check.yml"><img src="https://github.com/Robert-Forrest/org-enhanced-priorities/actions/workflows/check.yml/badge.svg"></a>
+
 =org-enhanced-priorities= enhances Org-mode's default priority-based
 ranking with impact and difficulty. This extra information introduces
 more nuanced and fine-level control over agenda sorting, allowing you
