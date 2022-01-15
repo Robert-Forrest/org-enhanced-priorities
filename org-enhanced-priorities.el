@@ -49,8 +49,6 @@
 
 (require 'org)
 
-;;;; Variables
-
 ;;;; Customization
 
 (defgroup org-enhanced-priorities nil
@@ -62,6 +60,16 @@
   "Association list of property names and weights to be considered while ranking."
   :type 'alist
   :group 'org-enhanced-priorities)
+
+(defcustom org-enhanced-priorities-deadline-leadup 14
+  "Number of days ahead of a DEADLINE to start increasing the overall priority."
+  :type 'integer
+  :group 'org-enhanced-priorities)
+
+;;;; Constants
+
+(defconst org-enhanced-priorities-deadline-gradient (/ 3.0 org-enhanced-priorities-deadline-leadup)
+  "Gradient of linear function mapping days-to-deadline to 0 to 3 scale.")
 
 ;;;; Functions
 
@@ -75,7 +83,7 @@
     (cond ((string= property "PRIORITY") (cond ((string= property-value "A") 3)
                                                ((string= property-value "B") 2)
                                                ((string= property-value "C") 1)))
-          ((string= property "DEADLINE") (max 0 (+ (* -0.2142857 (org-time-stamp-to-now property-value)) 3)))
+          ((string= property "DEADLINE") (max 0 (+ (* org-enhanced-priorities-deadline-gradient (org-time-stamp-to-now property-value)) 3)))
           (t (string-to-number property-value)))))
 
 (defun org-enhanced-priorities--get-marker (item)
