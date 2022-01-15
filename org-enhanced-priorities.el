@@ -58,7 +58,7 @@
   :group 'org
   :link '(url-link "http://github.com/robert-forrest/org-enhanced-priorities"))
 
-(defcustom org-enhanced-priorities-property-weights '(("PRIORITY" . 2.5) ("impact" . 2) ("difficulty" . -1))
+(defcustom org-enhanced-priorities-property-weights '(("PRIORITY" . 2.5) ("DEADLINE" . 3) ("impact" . 2) ("difficulty" . -1))
   "Association list of property names and weights to be considered while ranking."
   :type 'alist
   :group 'org-enhanced-priorities)
@@ -72,16 +72,22 @@
 (defun org-enhanced-priorities--get-numerical-property (property &optional pos)
   "Convert string PROPERTY values for item at POS or under cursor to numbers."
   (let*((property-value (or (org-enhanced-priorities--get-property property pos) "0")))
-    (if (string= property "PRIORITY")
-        (cond ((string= property-value "A") 3)
-              ((string= property-value "B") 2)
-              ((string= property-value "C") 1))
-      (string-to-number property-value))))
+    (cond ((string= property "PRIORITY") (cond ((string= property-value "A") 3)
+                                               ((string= property-value "B") 2)
+                                               ((string= property-value "C") 1)))
+          ((string= property "DEADLINE") (max 0 (+ (* -0.2142857 (org-time-stamp-to-now property-value)) 3)))
+          (t (string-to-number property-value)))))
 
 (defun org-enhanced-priorities--get-marker (item)
   "Get the org-marker from text properties of ITEM."
   (or (get-text-property 0 'org-marker item)
       (get-text-property 0 'org-hd-marker item)))
+
+(defun org-enhanced-priorities--calculate-priority-components (&optional pos)
+  "Calculate the overall priority of an Org item either at POS or under cursor."
+  (cl-loop for (property . weight) in org-enhanced-priorities-property-weights
+           collect (cons property (* (org-enhanced-priorities--get-numerical-property property pos) weight))))
+
 
 (defun org-enhanced-priorities--calculate-overall-priority (&optional pos)
   "Calculate the overall priority of an Org item either at POS or under cursor."
