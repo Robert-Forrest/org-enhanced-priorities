@@ -4,7 +4,7 @@
 ;; Url: https://github.com/Robert-Forrest/org-enhanced-priorities
 ;; Version: 0.1-pre
 ;; Package-Requires:  ((emacs "26.1") (org "9.0"))
-;; Keywords: Org, agenda, tasks
+;; Keywords: calendar
 
 ;;; Commentary:
 
@@ -58,19 +58,9 @@
   :group 'org
   :link '(url-link "http://github.com/robert-forrest/org-enhanced-priorities"))
 
-(defcustom org-enhanced-priorities-weight-priority 2.5
-  "Default value for weight of priority in ranking."
-  :type 'number
-  :group 'org-enhanced-priorities)
-
-(defcustom org-enhanced-priorities-weight-impact 2
-  "Default value for weight of impact in ranking."
-  :type 'number
-  :group 'org-enhanced-priorities)
-
-(defcustom org-enhanced-priorities-weight-difficulty -1
-  "Default value for weight of difficulty in ranking."
-  :type 'number
+(defcustom org-enhanced-priorities-property-weights '(("PRIORITY" . 2.5) ("impact" . 2) ("difficulty" . -1))
+  "Association list of property names and weights to be considered while ranking."
+  :type 'alist
   :group 'org-enhanced-priorities)
 
 ;;;; Functions
@@ -95,14 +85,9 @@
 
 (defun org-enhanced-priorities--calculate-overall-priority (&optional pos)
   "Calculate the overall priority of an Org item either at POS or under cursor."
-  (let*((impact (org-enhanced-priorities--get-numerical-property "impact" pos))
-        (difficulty (org-enhanced-priorities--get-numerical-property "difficulty" pos))
-        (priority (org-enhanced-priorities--get-numerical-property "PRIORITY" pos))
-        (total (+
-                (* org-enhanced-priorities-weight-priority priority)
-                (* org-enhanced-priorities-weight-impact impact)
-                (* org-enhanced-priorities-weight-difficulty difficulty))))
-    total))
+  (cl-loop for (property . weight) in org-enhanced-priorities-property-weights
+                 sum (* (org-enhanced-priorities--get-numerical-property property pos) weight)))
+
   
 (defun org-enhanced-priorities--agenda-sort-overall-priority (a b)
   "Compare the overall priority values of items A and B."
