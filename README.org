@@ -77,6 +77,9 @@ agenda configuration:
                             (org-agenda-sorting-strategy '(user-defined-down))
 #+END_SRC
 
+I would highly recommend checking out the [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] package for
+further control over the appearance of the agenda.
+
 ** Capture templates
 
 You may find it useful to add the =:impact:= and =:difficulty:= properties
