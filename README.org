@@ -1,11 +1,15 @@
 #+TITLE: org-enhanced-priorities
 #+PROPERTY: LOGGING nil
 
-Enhances Org-mode's default priority-based ranking with impact and difficulty
+=org-enhanced-priorities= enhances Org-mode's default priority-based
+ranking with impact and difficulty. This extra information introduces
+more nuanced and fine-level control over agenda sorting, allowing you
+to confidently take the next task from the top of the agenda without
+wasting time thinking about it.
 
 * Installation
 
-org-enhanced-priorities is not yet available via ELPA or other
+=org-enhanced-priorities= is not yet available via ELPA or other
 archives, so must be manually installed and added to your load path.
 
 #+BEGIN_SRC emacs-lisp
@@ -15,7 +19,7 @@ archives, so must be manually installed and added to your load path.
 
 * Usage
 
-org-enhanced-priorities calculates the overall priority of an item
+=org-enhanced-priorities= calculates the overall priority of an item
 using the built-in priority property, and the additional properties of
 impact and difficulty.
 
@@ -28,14 +32,15 @@ The overall priority is the sum of these values after they have been
 multiplied by their respective weighting coefficients. The default
 values are currently:
 
-| Property   | Weighting |
-|------------+-----------|
-| Priority   |       2.5 |
-| Impact     |         2 |
-| Difficulty |        -1 |
+| Property   | Weighting | Variable                                  |
+|------------+-----------+-------------------------------------------|
+| Priority   |       2.5 | =org-enhanced-priorities-weight-priority=   |
+| Impact     |         2 | =org-enhanced-priorities-weight-impact=     |
+| Difficulty |        -1 | =org-enhanced-priorities-weight-difficulty= |
 
 Difficulty is negatively weighted such that harder tasks are ranked
-below easier ones.
+below easier ones. These values can be customised to create whatever
+ranking system works best for you.
 
 *** Example Org entry
 
@@ -50,12 +55,72 @@ item.
 :END:
 #+END_EXAMPLE
 
+Evaluating the following function while the cursor is over the above
+item would return 7.5 (assuming the default weights):
+#+BEGIN_SRC emacs-lisp
+(org-enhanced-priorities--calculate-overall-priority)
+#+END_SRC
+
+See the =examples= directory for further exemplary org entries. When the
+agenda for the =examples= tasks is sorted using =org-enhanced-priorities=,
+the result is the following:
+
+[[./examples/example-agenda.png]]
+
 ** Agenda
 
-Add the sorting function provided by org-enhanced-priorities to your
+Add the sorting function provided by =org-enhanced-priorities= to your
 agenda configuration:
 
 #+BEGIN_SRC emacs-lisp
-(org-agenda-cmp-user-defined 'org-enhanced-priorities--agenda-sort-overall-priority)
-                            (org-agenda-sorting-strategy '(user-defined-down))
+  (org-agenda-cmp-user-defined 'org-enhanced-priorities--agenda-sort-overall-priority)
+  (org-agenda-sorting-strategy '(user-defined-down))
 #+END_SRC
+
+I would highly recommend checking out the [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] package for
+further control over the appearance of the agenda.
+
+** Capture templates
+
+You may find it useful to add the =:impact:= and =:difficulty:= properties
+to your task capture templates, so you can easily fill in the values:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates `(("t"
+                               "Task"
+                               entry (file+headline "/path/to/tasks.org" "Tasks"),
+                               "* TODO [#B] %? %^G 
+:PROPERTIES:
+:impact: 2 
+:difficulty: 2
+:END:"       
+             :empty-lines 1
+             )
+            )
+          )
+#+END_SRC
+
+
+* Future features
+
+- Arbitrary properties to be included in the ranking process, users
+  should be able to define their own properties. Related, better
+  handling of currently hard-coded =PRIORITY= property translation from
+  A, B, or C to a number, allow for other letters and numerical
+  values.
+
+- Deadlines and scheduling should have an effect on the
+  rankings. Priority should increase as deadlines approach, and should
+  be zero before the scheduled start-date of a task.
+
+- A command which returns the highest priority task, to be done next.
+
+- Availability of this package via an archive such as ELPA or MELPA.
+
+* Development
+
+Contributions are welcome and desired, as well as any feedback or suggestions.
+
+* License
+
+Please refer to the =LICENSE= file.

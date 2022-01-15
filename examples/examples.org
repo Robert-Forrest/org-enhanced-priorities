@@ -1,0 +1,147 @@
+* TODO [#A] High-priority High-impact High-difficulty :example: 
+:PROPERTIES:
+:impact: 3
+:difficulty:   3
+:END:
+
+* TODO [#A] High-priority High-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 3
+:difficulty:   2
+:END:
+
+* TODO [#A] High-priority High-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 3
+:difficulty:   1
+:END:
+* TODO [#A] High-priority Medium-impact High-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   3
+:END:
+* TODO [#A] High-priority Low-impact High-difficulty :example: 
+:PROPERTIES:
+:impact: 1
+:difficulty:   2
+:END:
+
+* TODO [#A] High-priority Medium-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   2
+:END:
+
+* TODO [#A] High-priority Medium-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   1
+:END:
+* TODO [#A] High-priority Low-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 1
+:difficulty: 2
+:END:
+* TODO [#A] High-priority Low-impact Low-difficulty :example: 
+:PROPERTIES:
+:impact: 1
+:difficulty:   1
+:END:
+
+* TODO [#B] Medium-priority High-impact High-difficulty :example: 
+:PROPERTIES:
+:impact: 3
+:difficulty:   3
+:END:
+* TODO [#B] Medium-priority High-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 3
+:difficulty:   2
+:END:
+* TODO [#B] Medium-priority High-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 3
+:difficulty:   1
+:END:
+* TODO [#B] Medium-priority Medium-impact High-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   3
+:END:
+* TODO [#B] Medium-priority Low-impact High-difficulty :example:  
+:PROPERTIES:
+:impact: 1
+:difficulty:   3
+:END:
+
+* TODO [#B] Medium-priority Medium-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   2
+:END:
+
+* TODO [#B] Medium-priority Medium-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   1
+:END:
+
+* TODO [#B] Medium-priority Low-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 1
+:difficulty:   2
+:END:
+
+* TODO [#B] Medium-priority Low-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 1
+:difficulty:   1
+:END:
+
+* TODO [#C] Low-priority High-impact High-difficulty :example:  
+:PROPERTIES:
+:impact: 3
+:difficulty:   3
+:END:
+* TODO [#C] Low-priority High-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 3
+:difficulty:   2
+:END:
+* TODO [#C] Low-priority High-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 3
+:difficulty:   1
+:END:
+
+* TODO [#C] Low-priority Medium-impact High-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   3
+:END:
+* TODO [#C] Low-priority Low-impact High-difficulty :example:  
+:PROPERTIES:
+:impact: 1
+:difficulty:   3
+:END:
+* TODO [#C] Low-priority Medium-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   2
+:END:
+
+* TODO [#C] Low-priority Medium-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 2
+:difficulty:   1
+:END:
+* TODO [#C] Low-priority Low-impact Medium-difficulty :example:  
+:PROPERTIES:
+:impact: 1
+:difficulty:   2
+:END:
+* TODO [#C] Low-priority Low-impact Low-difficulty :example:  
+:PROPERTIES:
+:impact: 1
+:difficulty:   1
+:END:
