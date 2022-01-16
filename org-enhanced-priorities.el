@@ -56,7 +56,7 @@
   :group 'org
   :link '(url-link "http://github.com/robert-forrest/org-enhanced-priorities"))
 
-(defcustom org-enhanced-priorities-property-weights '(("PRIORITY" . 2.5) ("DEADLINE" . 3) ("impact" . 2) ("difficulty" . -1))
+(defcustom org-enhanced-priorities-property-weights '(("PRIORITY" . 2.5) ("DEADLINE" . 2) ("impact" . 2) ("difficulty" . -1))
   "Association list of property names and weights to be considered while ranking."
   :type 'alist
   :group 'org-enhanced-priorities)
@@ -68,7 +68,7 @@
 
 ;;;; Constants
 
-(defconst org-enhanced-priorities-deadline-gradient (/ 3.0 org-enhanced-priorities-deadline-leadup)
+(defconst org-enhanced-priorities-deadline-gradient (/ -3.0 org-enhanced-priorities-deadline-leadup)
   "Gradient of linear function mapping days-to-deadline to 0 to 3 scale.")
 
 ;;;; Functions
@@ -83,7 +83,7 @@
     (cond ((string= property "PRIORITY") (cond ((string= property-value "A") 3)
                                                ((string= property-value "B") 2)
                                                ((string= property-value "C") 1)))
-          ((string= property "DEADLINE") (max 0 (+ (* org-enhanced-priorities-deadline-gradient (org-time-stamp-to-now property-value)) 3)))
+          ((and (string= property "DEADLINE") (not (string= property-value "0"))) (max 0 (+ (* org-enhanced-priorities-deadline-gradient (org-time-stamp-to-now property-value)) 3)))
           (t (string-to-number property-value)))))
 
 (defun org-enhanced-priorities--get-marker (item)
@@ -96,12 +96,10 @@
   (cl-loop for (property . weight) in org-enhanced-priorities-property-weights
            collect (cons property (* (org-enhanced-priorities--get-numerical-property property pos) weight))))
 
-
 (defun org-enhanced-priorities--calculate-overall-priority (&optional pos)
   "Calculate the overall priority of an Org item either at POS or under cursor."
-  (cl-loop for (property . weight) in org-enhanced-priorities-property-weights
-                 sum (* (org-enhanced-priorities--get-numerical-property property pos) weight)))
-
+  (cl-loop for (property . value) in (org-enhanced-priorities--calculate-priority-components pos)
+           sum value))
   
 (defun org-enhanced-priorities--agenda-sort-overall-priority (a b)
   "Compare the overall priority values of items A and B."
