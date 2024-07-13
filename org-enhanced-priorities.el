@@ -1,10 +1,11 @@
 ;;; org-enhanced-priorities.el --- Rank TODOs by priority, impact, and difficulty  -*- lexical-binding: t; -*-
 
 ;; Author: Robert Forrest <robertforrest@live.com>
+;; Maintainer: Robert Forrest <robertforrest@live.com>
 ;; Url: https://github.com/Robert-Forrest/org-enhanced-priorities
-;; Version: 0.1-pre
+;; Version: 0.0.1
 ;; Package-Requires:  ((emacs "26.1") (org "9.0"))
-;; Keywords: calendar
+;; Keywords: calendar agenda priority task sort
 
 ;;; Commentary:
 
@@ -73,42 +74,47 @@
 
 ;;;; Functions
 
+;;;###autoload
 (defun org-enhanced-priorities--get-property (property &optional pos)
   "Get PROPERTY from org item at POS or under cursor."
   (org-entry-get (or pos (point)) property))
 
+;;;###autoload
 (defun org-enhanced-priorities--get-numerical-property (property &optional pos)
   "Convert string PROPERTY values for item at POS or under cursor to numbers."
   (let*((property-value (or (org-enhanced-priorities--get-property property pos) "0")))
     (cond ((string= property "PRIORITY") (cond ((string= property-value "A") 3)
                                                ((string= property-value "B") 2)
                                                ((string= property-value "C") 1)))
-          ((and (string= property "DEADLINE") (not (string= property-value "0"))) (max 0 (+ (* org-enhanced-priorities-deadline-gradient (org-time-stamp-to-now property-value)) 3)))
+          ((and (string= property "DEADLINE") (not (string= property-value "0")))
+           (max 0 (+ (* org-enhanced-priorities-deadline-gradient (org-time-stamp-to-now property-value)) 3)))
           (t (string-to-number property-value)))))
 
+;;;###autoload
 (defun org-enhanced-priorities--get-marker (item)
   "Get the org-marker from text properties of ITEM."
   (or (get-text-property 0 'org-marker item)
       (get-text-property 0 'org-hd-marker item)))
 
+;;;###autoload
 (defun org-enhanced-priorities--calculate-priority-components (&optional pos)
   "Calculate the overall priority of an Org item either at POS or under cursor."
   (cl-loop for (property . weight) in org-enhanced-priorities-property-weights
            collect (cons property (* (org-enhanced-priorities--get-numerical-property property pos) weight))))
 
+;;;###autoload
 (defun org-enhanced-priorities--calculate-overall-priority (&optional pos)
   "Calculate the overall priority of an Org item either at POS or under cursor."
   (cl-loop for (property . value) in (org-enhanced-priorities--calculate-priority-components pos)
            sum value))
-  
+
+;;;###autoload
 (defun org-enhanced-priorities--agenda-sort-overall-priority (a b)
   "Compare the overall priority values of items A and B."
   (let*((ma (org-enhanced-priorities--get-marker a))
         (mb (org-enhanced-priorities--get-marker b))
-        
         (total-a (org-enhanced-priorities--calculate-overall-priority ma))
         (total-b (org-enhanced-priorities--calculate-overall-priority mb)))
-    
     (cond ((> total-a total-b) +1)
           ((< total-a total-b) -1))))
 
@@ -117,3 +123,4 @@
 (provide 'org-enhanced-priorities)
 
 ;;; org-enhanced-priorities.el ends here
+
