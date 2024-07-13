@@ -12,8 +12,17 @@ wasting time thinking about it.
 * Installation
 
 =org-enhanced-priorities= is not yet available via ELPA or other
-archives, so must be manually installed and added to your load path.
-
+archives, so you must point use-package at this repo:
+#+BEGIN_SRC emacs-lisp
+(use-package org-enhanced-priorities
+  :straight (org-enhanced-priorities
+             :type git
+             :host github
+             :repo "Robert-Forrest/org-enhanced-priorities")
+  :init
+  (require 'org-enhanced-priorities)
+#+END_SRC
+or manually install and add to your load path:
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path "/path/to/org-enhanced-priorities")
 (require 'org-enhanced-priorities)
