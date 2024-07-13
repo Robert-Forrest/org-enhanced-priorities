@@ -90,10 +90,10 @@ the result is the following:
 
 *** Open highest-priority task
 
-Use `M-x org-enhanced-priorities--highest-priority` to open the org entry which
+Use =M-x org-enhanced-priorities--highest-priority= to open the org entry which
 currently has the highest priority among all entries in your agenda files. You
-may optionally set a match expression, this defaults to /TODO to only consider
-pending tasks, but you could enter /HOLD or any other valid match expression
+may optionally set a match expression, this defaults to =/TODO= to only consider
+pending tasks, but you could enter =/HOLD= or any other valid match expression
 consumable by
 [[https://orgmode.org/manual/Using-the-Mapping-API.html][org-map-entries]].
 
