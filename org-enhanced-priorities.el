@@ -118,6 +118,26 @@
     (cond ((> total-a total-b) +1)
           ((< total-a total-b) -1))))
 
+;;;###autoload
+(defun org-enhanced-priorities--highest-priority (&optional match)
+  "Open the Org entry with the highest priority.
+MATCH specifies the entries to match, defaulting to \"/TODO\"."
+  (interactive (list (read-string "Match: " "/TODO")))
+  (let ((max-priority -999)
+        max-heading max-marker)
+    (org-map-entries
+     (lambda ()
+       (let ((priority (org-enhanced-priorities--calculate-overall-priority)))
+         (when (> priority max-priority)
+           (setq max-priority priority
+                 max-heading (org-get-heading t t t t)
+                 max-marker (point-marker)))))
+     (or match "/TODO") 'agenda)
+    (when max-marker
+      (switch-to-buffer (marker-buffer max-marker))
+      (goto-char max-marker)
+      (org-fold-show-entry)
+      (message "\"%s\" (priority: %d)" max-heading max-priority))))
 ;;;; Footer
 
 (provide 'org-enhanced-priorities)
