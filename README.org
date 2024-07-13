@@ -121,21 +121,17 @@ to your task capture templates, so you can easily fill in the values:
 
 * Future features
 
-- [x] Arbitrary properties to be included in the ranking process,
+- [X] Arbitrary properties to be included in the ranking process,
   users should be able to define their own properties.
-
-- [] Better handling of currently hard-coded =PRIORITY= property
+- [ ] Better handling of currently hard-coded =PRIORITY= property
   translation from A, B, or C to a number, allow for other letters and
   numerical values.
-
-- [] Deadlines and scheduling should have an effect on the
+- [ ] Deadlines and scheduling should have an effect on the
   rankings. Priority should increase as deadlines approach, and should
   be zero before the scheduled start-date of a task.
-
-- [] A command which returns the highest priority task, to be done
+- [X] A command which returns the highest priority task, to be done
   next.
-
-- [] Availability of this package via an archive such as ELPA or
+- [ ] Availability of this package via an archive such as ELPA or
   MELPA.
 
 * Development
