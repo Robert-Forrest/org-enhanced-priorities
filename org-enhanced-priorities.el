@@ -57,7 +57,7 @@
   :group 'org
   :link '(url-link "http://github.com/robert-forrest/org-enhanced-priorities"))
 
-(defcustom org-enhanced-priorities-property-weights '(("PRIORITY" . 2.5) ("DEADLINE" . 2) ("impact" . 2) ("difficulty" . -1))
+(defcustom org-enhanced-priorities-property-weights '(("PRIORITY" . 7.5) ("DEADLINE" . 2) ("impact" . 2) ("difficulty" . -1))
   "Association list of property names and weights to be considered while ranking."
   :type 'alist
   :group 'org-enhanced-priorities)
@@ -83,12 +83,25 @@
 (defun org-enhanced-priorities--get-numerical-property (property &optional pos)
   "Convert string PROPERTY values for item at POS or under cursor to numbers."
   (let*((property-value (or (org-enhanced-priorities--get-property property pos) "0")))
-    (cond ((string= property "PRIORITY") (cond ((string= property-value "A") 3)
-                                               ((string= property-value "B") 2)
-                                               ((string= property-value "C") 1)))
-          ((and (string= property "DEADLINE") (not (string= property-value "0")))
-           (max 0 (+ (* org-enhanced-priorities-deadline-gradient (org-time-stamp-to-now property-value)) 3)))
+    (cond ((string= property "PRIORITY") (org-enhanced-priorities--get-numerical-priority pos))
+          ((string= property "DEADLINE") (org-enhanced-priorities--get-deadline-contribution pos))
           (t (string-to-number property-value)))))
+
+;;;###autoload
+(defun org-enhanced-priorities--get-numerical-priority (&optional pos)
+  "Map current Org entry priority to its index between `org-lowest-priority` and `org-highest-priority`."
+  (let ((priority (org-entry-get (or pos (point)) "PRIORITY")))
+    (if priority
+        (/ (float (- org-lowest-priority (string-to-char priority))) (- org-lowest-priority org-highest-priority))
+      0)))
+
+;;;###autoload
+(defun org-enhanced-priorities--get-deadline-contribution (&optional pos)
+  "Send DEADLINE property through gradient function to get priority contribution, return zero otherwise."
+  (let ((deadline (org-enhanced-priorities--get-property "DEADLINE" pos)))
+    (if deadline
+        (max 0 (+ (* org-enhanced-priorities-deadline-gradient (org-time-stamp-to-now deadline)) 3))
+      0)))
 
 ;;;###autoload
 (defun org-enhanced-priorities--get-marker (item)
