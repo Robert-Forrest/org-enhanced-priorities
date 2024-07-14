@@ -63,6 +63,12 @@ properties into the overall priority calculation:
 (add-to-list 'org-enhanced-priorities-property-weights '("fun" . 10))
 #+END_SRC
 
+The contribution made by the vanilla org-mode priority labels (e.g. [#A]) to the
+overall priority calculated by this package is determined by normalising the
+char value between =org-lowest-priority= and =org-highest-priority=, such that
+it is agnostic to the labelling you have configured as long as it is in
+accordance with org-mode's expectations of numerical ordering.
+
 *** Example Org entry
 
 The properties :impact: and :difficulty: have been added to this Org
@@ -132,7 +138,7 @@ to your task capture templates, so you can easily fill in the values:
 
 - [X] Arbitrary properties to be included in the ranking process,
   users should be able to define their own properties.
-- [ ] Better handling of currently hard-coded =PRIORITY= property
+- [X] Better handling of currently hard-coded =PRIORITY= property
   translation from A, B, or C to a number, allow for other letters and
   numerical values.
 - [ ] Deadlines and scheduling should have an effect on the
