@@ -30,34 +30,36 @@ or manually install and add to your load path:
 
 * Usage
 
-=org-enhanced-priorities= calculates the overall priority of an item
-using the built-in priority property, and the additional properties of
-impact and difficulty.
+=org-enhanced-priorities= calculates the overall priority of an item using the
+built-in priority property, and the additional properties of impact and
+difficulty.
 
-Impact is thought of as "how much positive change will this task
-create?", difficulty as "how hard is this task?", and priority takes
-its usual meaning of "how urgent is this task?". Currently, all
-properties are assumed to be on a scale of 1-3 (low-high).
+Impact is thought of as "how much positive change will this task create?",
+difficulty as "how hard is this task?", and priority takes its usual meaning of
+"how urgent is this task?". These properties are assumed to be on a scale of 1-3
+(low-high).
 
-The overall priority is the sum of these values after they have been
-multiplied by their respective weighting coefficients. The default
-values are currently:
+The overall priority is the sum of these values after they have been multiplied
+by their respective weighting coefficients. The default values are currently:
 
 | Property   | Weighting |
 |------------+-----------|
 | Priority   |       7.5 |
 | Impact     |         2 |
 | Difficulty |        -1 |
+| Deadline   |         4 |
+| Scheduled  |         4 |
 
-Difficulty is negatively weighted such that harder tasks are ranked
-below easier ones.
+Difficulty is negatively weighted such that harder tasks are ranked below easier
+ones. =DEADLINE= and =SCHEDULED= properties are taken into account such that
+priority increases as deadline dates approach, while priority is decreased until
+the scheduled date arrives.
 
-These values can be customised to create whatever ranking system works
-best for you, via the variable
-=org-enhanced-priorities-property-weights=, an association list of
-property names and their respective weights. Simply add new key-value
-pairs to =org-enhanced-priorities-property-weights= to include other
-properties into the overall priority calculation:
+These values can be customised to create whatever ranking system works best for
+you, via the variable =org-enhanced-priorities-property-weights=, an association
+list of property names and their respective weights. Simply add new key-value
+pairs to =org-enhanced-priorities-property-weights= to include other properties
+into the overall priority calculation:
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-enhanced-priorities-property-weights '("fun" . 10))
@@ -103,6 +105,13 @@ pending tasks, but you could enter =/HOLD= or any other valid match expression
 consumable by
 [[https://orgmode.org/manual/Using-the-Mapping-API.html][org-map-entries]].
 
+*** View all tasks, sorted by priority
+
+Use =M-x org-enhanced-priorities--sorted-entries= to open a temporary buffer
+listing all org entries in order of the enhanced priority value. Similar to the
+agenda view, pressing =RET= on any entry headline will take you to the entry
+itself, while =q= will quit the buffer.
+
 ** Agenda
 
 Add the sorting function provided by =org-enhanced-priorities= to your
@@ -141,7 +150,7 @@ to your task capture templates, so you can easily fill in the values:
 - [X] Better handling of currently hard-coded =PRIORITY= property
   translation from A, B, or C to a number, allow for other letters and
   numerical values.
-- [ ] Deadlines and scheduling should have an effect on the
+- [X] Deadlines and scheduling should have an effect on the
   rankings. Priority should increase as deadlines approach, and should
   be zero before the scheduled start-date of a task.
 - [X] A command which returns the highest priority task, to be done
