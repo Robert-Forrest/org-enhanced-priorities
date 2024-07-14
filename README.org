@@ -45,7 +45,7 @@ values are currently:
 
 | Property   | Weighting |
 |------------+-----------|
-| Priority   |       2.5 |
+| Priority   |       7.5 |
 | Impact     |         2 |
 | Difficulty |        -1 |
 
